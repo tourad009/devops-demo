@@ -1,0 +1,53 @@
+{% extends 'products/base.html' %}
+
+{% block title %}{{ action }} un produit{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">{{ action }} un produit</h2>
+
+    <form method="post" class="space-y-6">
+        {% csrf_token %}
+
+        <!-- Champ Nom -->
+        <div>
+            <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                Nom du produit
+            </label>
+            <input type="text" name="{{ form.name.name }}" id="{{ form.name.id_for_label }}"
+                value="{{ form.name.value|default:'' }}"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                placeholder="Ex: iPhone 15 Pro" required>
+            {% if form.name.errors %}
+            <p class="mt-1 text-sm text-red-600">{{ form.name.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Champ Prix -->
+        <div>
+            <label for="{{ form.price.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">
+                Prix (XOF)
+            </label>
+            <input type="number" name="{{ form.price.name }}" id="{{ form.price.id_for_label }}"
+                value="{{ form.price.value|default:'' }}" step="0.01"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                placeholder="Ex: 650000" required>
+            {% if form.price.errors %}
+            <p class="mt-1 text-sm text-red-600">{{ form.price.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Boutons -->
+        <div class="flex space-x-4 pt-4">
+            <button type="submit"
+                class="flex-1 bg-green-500 hover:bg-green-600 text-white font-medium px-6 py-3 rounded-lg transition duration-200">
+                💾 Enregistrer
+            </button>
+            <a href="{% url 'product_list' %}"
+                class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-medium px-6 py-3 rounded-lg text-center transition duration-200">
+                ❌ Annuler
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}
